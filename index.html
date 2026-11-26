@@ -6,10 +6,12 @@
 <meta name="theme-color" content="#f3eee2">
 <meta name="robots" content="noindex, nofollow">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<title>PAX-Planer · Schweizerhof Luzern</title>
-<meta name="description" content="Prototyp: Portionen, Mise en place und Bestellung pro Gericht, mit einem Puffer, der aus jedem Service lernt.">
+<title>Headacheless · Schweizerhof Luzern</title>
+<meta name="application-name" content="Headacheless">
+<meta name="apple-mobile-web-app-title" content="Headacheless">
+<meta name="description" content="Headacheless, Prototyp: Portionen, Mise en place und Bestellung pro Gericht, mit einem Puffer, der aus jedem Service lernt.">
 <!--
-  PAX planner, concept prototype for the Schweizerhof Luzern kitchen. Version 2, phone first.
+  Headacheless: the PAX planner, concept prototype for the Schweizerhof Luzern kitchen. Version 2, phone first.
   Built from .claude/skills/fnb-kitchen-pilot. Edit this source, then run build.py.
   One offline file: no network, no login. Data lives in this browser (localStorage),
   with backup export and import. Demo data only: no figures from the hotel.
@@ -400,8 +402,8 @@ footer.wrap{border-top:1px solid var(--hair);padding-top:18px;padding-bottom:34p
 <header class="mast wrap">
   <div class="mast__in">
     <div>
-      <h1 data-t="appTitle">PAX-Planer</h1>
-      <p data-t="appSub">für die Küche des Schweizerhof Luzern · Prototyp mit Demo-Daten</p>
+      <h1 data-t="appTitle">Headacheless</h1>
+      <p data-t="appSub">Der PAX-Planer für die Küche des Schweizerhof Luzern · Prototyp mit Demo-Daten</p>
     </div>
     <div class="lang" role="group" aria-label="Sprache / Language">
       <button type="button" data-lang="de" aria-pressed="true">DE</button>
@@ -437,7 +439,7 @@ footer.wrap{border-top:1px solid var(--hair);padding-top:18px;padding-bottom:34p
 "use strict";
 /* ======================= words ======================= */
 const T={
-de:{skip:"Zum Inhalt",appTitle:"PAX-Planer",appSub:"für die Küche des Schweizerhof Luzern · Prototyp mit Demo-Daten",
+de:{skip:"Zum Inhalt",appTitle:"Headacheless",appSub:"Der PAX-Planer für die Küche des Schweizerhof Luzern · Prototyp mit Demo-Daten",
  tabPlan:"Planen",tabAfter:"Nach dem Service",tabRecipes:"Rezepte",tabRules:"Regeln & Daten",
  tabPlanS:"Planen",tabAfterS:"Service",tabRecipesS:"Rezepte",tabRulesS:"Regeln",
  notice:"Demo-Daten, keine Zahlen des Hotels. Alles bleibt auf diesem Gerät, nichts wird gesendet.",
@@ -510,9 +512,9 @@ de:{skip:"Zum Inhalt",appTitle:"PAX-Planer",appSub:"für die Küche des Schweize
  resetDemo:"Auf Demo-Daten zurücksetzen",confirmReset:"Alle eigenen Rezepte und den Verlauf durch die Demo-Daten ersetzen?",
  imported:"Importiert: {n} Komponente(n).",importFail:"Datei nicht lesbar. Bitte die Vorlage verwenden.",backupLoaded:"Sicherung geladen.",
  csvHead:"Komponente;Ergibt;Einheit;Zutat;Menge;Einheit;CHF pro kg/l/Stk;Gebinde;Haltbar Tage;Lieferant",
- xTitle:"Bestellliste · {svc} · {pax} Gäste",xSub:"Erstellt am {date} mit dem PAX-Planer (Prototyp, Demo-Daten)",xUnit:"Einheit",xPack:"Gebinde",xSheet:"Bestellung",
+ xTitle:"Bestellliste · {svc} · {pax} Gäste",xSub:"Erstellt am {date} mit Headacheless (Prototyp, Demo-Daten)",xUnit:"Einheit",xPack:"Gebinde",xSheet:"Bestellung",
  unit_g:"g",unit_ml:"ml",unit_pcs:"Stk",unit_port:"Port.",days:"T."},
-en:{skip:"Skip to content",appTitle:"PAX planner",appSub:"for the Schweizerhof Luzern kitchen · prototype with demo data",
+en:{skip:"Skip to content",appTitle:"Headacheless",appSub:"The PAX planner for the Schweizerhof Luzern kitchen · prototype with demo data",
  tabPlan:"Plan",tabAfter:"After service",tabRecipes:"Recipes",tabRules:"Rules & data",
  tabPlanS:"Plan",tabAfterS:"Service",tabRecipesS:"Recipes",tabRulesS:"Rules",
  notice:"Demo data, not the hotel's figures. Everything stays on this device. Nothing is sent.",
@@ -585,7 +587,7 @@ en:{skip:"Skip to content",appTitle:"PAX planner",appSub:"for the Schweizerhof L
  resetDemo:"Reset to demo data",confirmReset:"Replace all your recipes and history with the demo data?",
  imported:"Imported: {n} component(s).",importFail:"Couldn't read the file. Please use the template.",backupLoaded:"Backup loaded.",
  csvHead:"Component;Makes;Unit;Ingredient;Qty;Unit;CHF per kg/l/pc;Pack;Keeps days;Supplier",
- xTitle:"Order list · {svc} · {pax} guests",xSub:"Made on {date} with the PAX planner (prototype, demo data)",xUnit:"Unit",xPack:"Pack",xSheet:"Order",
+ xTitle:"Order list · {svc} · {pax} guests",xSub:"Made on {date} with Headacheless (prototype, demo data)",xUnit:"Unit",xPack:"Pack",xSheet:"Order",
  unit_g:"g",unit_ml:"ml",unit_pcs:"pcs",unit_port:"ptn",days:"d"}
 };
 const SVC=["banquet","buffet","alacarte"];
@@ -1210,7 +1212,7 @@ document.addEventListener("click",e=>{
     case"deleteComp":if(r){const used=usedIn(r.id);if(used.length){toast(t("compInUse",{d:nm(r.name),list:used.map(x=>nm(x.name)).join(", ")}));break;}
       if(confirm(t("confirmDelete",{d:nm(r.name)}))){S.recipes=S.recipes.filter(x=>x!==r);save();renderRecipes();}}break;
     case"resetLearn":if(d&&confirm(t("confirmResetLearn",{d:nm(d.name)}))){d.learn={banquet:[],buffet:[],alacarte:[]};save();renderRecipes();}break;
-    case"exportBackup":download(`pax-planer-sicherung-${today()}.json`,JSON.stringify(S,null,1),"application/json");break;
+    case"exportBackup":download(`headacheless-sicherung-${today()}.json`,JSON.stringify(S,null,1),"application/json");break;
     case"csvTemplate":csvTemplate();break;
     case"resetDemo":if(confirm(t("confirmReset"))){const lang=S.lang;S=seed();S.lang=lang;S.ui.tab="rules";prevScale={};save();render();}break;
   }
